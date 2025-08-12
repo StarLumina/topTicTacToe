@@ -10,8 +10,25 @@ function Gameboard(){
   }
   const printBoard = () => {
     let printableBoard = board.map(row => row.map(square=>square.getValue()))
-    console.log(printableBoard)}
-  return {getBoard, printBoard, selectSquare}
+    console.log(printableBoard)
+  }
+  const checkForWin = (coorX,coorY) => {
+    switch (true) {
+    case (board[coorY][0].getValue()==board[coorY][1].getValue()&&board[coorY][1].getValue()==board[coorY][2].getValue()):
+      console.log('tomfoolery afoot')
+    break
+    case (board[0][coorX].getValue()==board[1][coorX].getValue()&&board[1][coorX].getValue()==board[0][coorX].getValue()):
+      console.log('tomfoolery afoot')
+    break
+    case (board[1][1]!=null):
+      if (board[0][0].getValue()==board[1][1].getValue()&&board[1][1].getValue()==board[2][2].getValue()){
+        return true 
+      } else if (board[2][0].getValue()==board[1][1].getValue()&&board[1][1].getValue()==board[0][2].getValue()){
+        return true 
+      }
+    }
+  }
+  return {getBoard, printBoard, selectSquare, checkForWin}
   }
 
 function Square(){
@@ -41,22 +58,8 @@ function GameController(playerOne,playerTwo){
     console.log(`${getActivePlayer().name}'s turn`)}
   const playRound = (coorX,coorY) => {
     board.selectSquare(coorX,coorY,getActivePlayer().symbol)
-    switch (true){
-      case (board[coorY][0]==board[coorY][1]==board[coorY][2]):
-        console.log('you win!')
-        break
-      case (board[0][coorX]==board[1][coorX]==board[0][coorX]):
-        console.log('you win!')
-        break
-      case (board[1][1]!=null):
-          if (board[0][0]==board[1][1]==board[2][2]){
-              console.log('you win!')
-              } else (board[2][0]==board[1][1]==board[0][2]) {
-                console.log('you win!')
-              }
-        break
-    }
-    switchActivePlayer()
+    if (board.checkForWin(coorX,coorY)) console.log('as intended')
+    // switchActivePlayer()
     printNewRound()
   }
   printNewRound()
@@ -69,6 +72,6 @@ function displayController(){
 
 const game = GameController()
 game.playRound(1,1)
-game.playRound(1,2)
-game.playRound(2,2)
 game.playRound(0,0)
+game.playRound(2,2)
+
