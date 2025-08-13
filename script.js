@@ -13,6 +13,9 @@ function Gameboard(){
     let printableBoard = board.map(row => row.map(square=>square.getValue()))
     console.log(printableBoard)
   }
+  const isTaken = (coorX,coorY) => {
+    return ( board[coorY][coorX].getValue() !== null )
+  }
   const checkForWin = (coorX,coorY) => {
     switch (true) {
     case (board[coorY][0].getValue()==board[coorY][1].getValue()&&board[coorY][1].getValue()==board[coorY][2].getValue()):
@@ -33,7 +36,7 @@ function Gameboard(){
       }
     }
   }
-  return {getBoard, printBoard, selectSquare, checkForWin}
+  return {getBoard, printBoard, selectSquare, checkForWin, isTaken, reset}
   }
 
 function Square(){
@@ -71,8 +74,12 @@ function GameController(playerOne,playerTwo){
     board.printBoard()
     console.log(`${getActivePlayer().name}'s turn`)}
   const playRound = (coorX,coorY) => {
+    if (board.isTaken(coorX,coorY)) switchActivePlayer()
     board.selectSquare(coorX,coorY,getActivePlayer().symbol)
-    if (board.checkForWin(coorX,coorY)) {activePlayer.score += 1}
+    if (board.checkForWin(coorX,coorY)) {
+      activePlayer.score += 1
+      board.reset()
+    }
     switchActivePlayer()
     display.updateDisplay(tictic,board.getBoard().flat(Infinity))
     display.updateScore(players)
