@@ -1,4 +1,16 @@
 
+const resetButton=document.getElementById('reset')
+const changeName=document.getElementById('changeName')
+const modalDialog = document.getElementById('modalDialog')
+const playerOneGet = document.getElementById('playerTag1Get')
+const playerTwoGet = document.getElementById('playerTag2Get')
+const playerOneTag = document.getElementById('playerTag1')
+const playerTwoTag = document.getElementById('playerTag2')
+
+const submit = document.getElementById('form')
+
+changeName.addEventListener('click', ()=>modalDialog.showModal()) 
+
 display = (function DisplayController(){
   const tictic = Array.from(document.getElementsByClassName('square'))
   const updateDisplay = (board) => {
@@ -12,7 +24,13 @@ display = (function DisplayController(){
     playerOneScore.textContent=playerList[0].score
     playerTwoScore.textContent=playerList[1].score
   }
-  return {updateDisplay, updateScore}
+  const updatePlayerName = (playerList) => {
+    let playerOneTag = document.getElementById('playerTag1')
+    let playerTwoTag = document.getElementById('playerTag2')
+    playerOneTag.textContent=playerList[0].name
+    playerTwoTag.textContent=playerList[1].name 
+  }
+  return {updateDisplay, updateScore, updatePlayerName}
 })()
 
 function Gameboard(){
@@ -66,10 +84,6 @@ function Square(){
 function GameController(playerOne,playerTwo){
   const board = Gameboard()
   const eventListener = document.getElementById('squares')
-  eventListener.addEventListener('click', event =>{ 
-    console.log(event.target.dataset.x)
-    playRound(event.target.dataset.x , event.target.dataset.y)
-  })
   const players = [
     {
       name: 'Player 1',
@@ -82,14 +96,28 @@ function GameController(playerOne,playerTwo){
       score:0,
     }
   ];
+  eventListener.addEventListener('click', event =>{ 
+    playRound(event.target.dataset.x , event.target.dataset.y)
+  })
+  resetButton.addEventListener('click', ()=>{
+    board.reset()
+    display.updateDisplay(board.getBoard().flat(Infinity))
+  })
+  submit.addEventListener('submit',(event)=>{
+    event.preventDefault()
+    players[0].name=playerOneGet.value
+    players[1].name=playerTwoGet.value
+    display.updatePlayerName(playerList)
+    modalDialog.close()
+  })
   let activePlayer = players[0]
-  const switchActivePlayer = () => {activePlayer===players[0]? activePlayer = players[1] : activePlayer = players[0]}
   const getActivePlayer = () => activePlayer
+  const switchActivePlayer = () => {activePlayer===players[0]? activePlayer = players[1] : activePlayer = players[0]}
   const printNewRound = () => {
     board.printBoard()
     console.log(`${getActivePlayer().name}'s turn`)}
   const playRound = (coorX,coorY) => {
-    if (board.isTaken(coorX,coorY)) switchActivePlayer()
+    if (board.isTaken(coorX,coorY)) return
     board.selectSquare(coorX,coorY,getActivePlayer().symbol)
     if (board.checkForWin(coorX,coorY)) {
       activePlayer.score += 1
@@ -104,7 +132,7 @@ function GameController(playerOne,playerTwo){
     display.updateScore(players)
   }
   printNewRound()
-  return{playRound, getActivePlayer}
+  return{playRound}
 }
 
 

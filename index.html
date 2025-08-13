@@ -21,12 +21,20 @@
             <button class="square" data-X="2" data-Y="2"></button>
         </div>
     </div>
+    <dialog id="modalDialog">
+        <form id="form">
+            <label for="playerTag1Get">Player 1 Tag</label><input type="text" id="playerTag1Get" name="newAuthor">
+            <label for="playerTag2Get">Player 2 Tag</label><input type="text" id="playerTag2Get" name="newTitle">
+            <button type="submit" id="submitButton">Click to Change</button>
+        </form>
+    </dialog>
     <div class="userInterface">
-        <h1 class="playerTag one">Player 1</h1>
+        <h1 id="playerTag1">Player 1</h1>
         <p id="playerScore1">0</p>
-        <h1 class="playerTag two">Player 2</h1>
+        <h1 id="playerTag2">Player 2</h1>
         <p id="playerScore2">0</p>
         <button id="reset">Reset!!</button>
+        <button id="changeName">Change Names!!</button>
     </div>
 </body>
 </html>

@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
+    background-color: beige;
 }
 
 :root{
@@ -23,6 +24,7 @@
     grid-template-rows: 1fr 1fr 1fr;
     gap: 1rem;
     background-color: rgb(243, 29, 100);
+    border: dotted white 5px;
 }
 
 .userInterface{
@@ -65,9 +67,23 @@ p{
 
 #reset{
     color: var(--darkPink);
-    font-size: 3rem;
+    font-size: 2rem;
     background-color: white;
     border-radius: 1rem;
     border: solid var(--pink) 3px;
     padding: .5rem 2rem;
+}
+
+#changeName, #submitButton{
+    color: var(--darkPink);
+    font-size: 2rem;
+    background-color: white;
+    border-radius: 1rem;
+    border: solid var(--pink) 3px;
+    padding: .5rem 2rem;
+}
+
+button:hover, #reset:hover, #changeName:hover{
+    background-color: lightpink;
+    color: white;
 }
