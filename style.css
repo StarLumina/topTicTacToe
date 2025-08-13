@@ -62,3 +62,12 @@ p{
     font-size: 4rem;
     font-weight: 700;
 }
+
+#reset{
+    color: var(--darkPink);
+    font-size: 3rem;
+    background-color: white;
+    border-radius: 1rem;
+    border: solid var(--pink) 3px;
+    padding: .5rem 2rem;
+}

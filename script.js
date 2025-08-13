@@ -1,4 +1,20 @@
 
+display = (function DisplayController(){
+  const tictic = Array.from(document.getElementsByClassName('square'))
+  const updateDisplay = (board) => {
+    for (let i=0; i < 9 ;i++) {
+      tictic[i].textContent=board[i].getValue()
+    }
+  }
+  const updateScore = (playerList) => {
+    let playerOneScore = document.getElementById('playerScore1')
+    let playerTwoScore = document.getElementById('playerScore2')
+    playerOneScore.textContent=playerList[0].score
+    playerTwoScore.textContent=playerList[1].score
+  }
+  return {updateDisplay, updateScore}
+})()
+
 function Gameboard(){
   const board = [
     [Square(),Square(),Square()],
@@ -13,6 +29,7 @@ function Gameboard(){
     let printableBoard = board.map(row => row.map(square=>square.getValue()))
     console.log(printableBoard)
   }
+  const reset = () => board.flat(Infinity).map(square => square.markSquare(null))
   const isTaken = (coorX,coorY) => {
     return ( board[coorY][coorX].getValue() !== null )
   }
@@ -48,8 +65,6 @@ function Square(){
 
 function GameController(playerOne,playerTwo){
   const board = Gameboard()
-  const display = DisplayController()
-  const tictic = Array.from(document.getElementsByClassName('square'))
   const eventListener = document.getElementById('squares')
   eventListener.addEventListener('click', event =>{ 
     console.log(event.target.dataset.x)
@@ -78,30 +93,20 @@ function GameController(playerOne,playerTwo){
     board.selectSquare(coorX,coorY,getActivePlayer().symbol)
     if (board.checkForWin(coorX,coorY)) {
       activePlayer.score += 1
+      display.updateDisplay(board.getBoard().flat(Infinity))
+      display.updateScore(players)
+      switchActivePlayer()
       board.reset()
+      return
     }
     switchActivePlayer()
-    display.updateDisplay(tictic,board.getBoard().flat(Infinity))
+    display.updateDisplay(board.getBoard().flat(Infinity))
     display.updateScore(players)
   }
   printNewRound()
   return{playRound, getActivePlayer}
 }
 
-function DisplayController(){
-  const updateDisplay = (display,board) => {
-    for (let i=0; i < 9 ;i++) {
-      display[i].textContent=board[i].getValue()
-    }
-  }
-  const updateScore = (playerList) => {
-    let playerOneScore = document.getElementById('playerScore1')
-    let playerTwoScore = document.getElementById('playerScore2')
-    playerOneScore.textContent=playerList[0].score
-    playerTwoScore.textContent=playerList[1].score
-  }
-  return {updateDisplay, updateScore}
-}
 
 const game = GameController()
 
