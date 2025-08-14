@@ -107,7 +107,7 @@ function GameController(playerOne,playerTwo){
     event.preventDefault()
     players[0].name=playerOneGet.value
     players[1].name=playerTwoGet.value
-    display.updatePlayerName(playerList)
+    display.updatePlayerName(players)
     modalDialog.close()
   })
   let activePlayer = players[0]

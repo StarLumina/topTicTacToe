@@ -83,7 +83,32 @@ p{
     padding: .5rem 2rem;
 }
 
-button:hover, #reset:hover, #changeName:hover{
+button:hover, #reset:hover, #changeName:hover, input:hover, #submitButton:hover{
     background-color: lightpink;
     color: white;
+}
+
+form{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    font-size: 2rem;
+    padding: 2rem;
+    background-color: white;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+input{
+    font-size: 2rem;
+    padding: 1rem;
+    color: var(--darkPink);
+    background-color: white;
+    border: double var(--darkPink) 10px;
+}
+
+label{
+    background-color: white;
+    color: var(--pink);
+    font-weight: 700;
 }
